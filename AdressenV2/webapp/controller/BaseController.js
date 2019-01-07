@@ -65,8 +65,7 @@ sap.ui.define([
 				var bReplace = false;
 				this.getRouter().navTo(sRoute, mData, bReplace);
 			}
-			
-			if (sPreviousHash !== undefined) {
+			else if (sPreviousHash !== undefined && sPreviousHash !== "mock") {
 				// The history contains a previous entry
 				/*eslint-disable */
 				window.history.go(-1);
@@ -77,8 +76,13 @@ sap.ui.define([
 				this.getRouter().navTo(sRoute, mData, bReplace);
 			}
 		},
-		
-		loadInitialData: function(callback) {
+
+		myNavBackWithoutHash: function (sRoute, mData) {
+			var bReplace = true;
+			this.getRouter().navTo(sRoute, mData, bReplace);
+		},
+
+		loadInitialData: function (callback) {
 			var that = this;
 			var oModel = new sap.ui.model.json.JSONModel();
 			// Run with Mockdata or Not?
