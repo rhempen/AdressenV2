@@ -1,0 +1,44 @@
+/* MGB - Design */
+
+/* globaler Hintergrund */
+.sapMGlobalBackgroundImage { 
+	background: linear-gradient( to bottom, #eee, #ddd ); 
+}
+.sapMPageHeader::before{ border-top: 0.25rem solid #ff6600; }
+
+/* Scrollbalken */
+.sap-desktop ::-webkit-scrollbar { width: 16px;  }  
+.sap-desktop ::-webkit-scrollbar-track {  
+    background-color: #bbb;  
+    border-left: 1px solid #ccc;  
+}  .sap-desktop ::-webkit-scrollbar-thumb { background-color: #434343; }  
+.sap-desktop ::-webkit-scrollbar-thumb:hover { background-color: #aaa; }  
+
+/* Suchfeld */
+.sapMSFF { border: 1px solid #fff; }
+.sapMFocus>.sapMSFF, :not(.sapMSFDisabled)>.sapMSFF:hover {
+	border: 1px solid #ff6600; 
+	background-color: #eee; 
+}
+.sapMSFB, .sapMSFB:after, .sapMFocus>.sapMSFF>.sapMSFB { color: #ff6600; }
+.sapMSFB:active, .sapMSFB:after:active { background-color: transparent; }
+
+
+/* Gruppenbruch-Elemente in Listen */
+li.sapMGHLIUpperCase { background-color: #eee !important; }
+li.sapMGHLIUpperCase { border-top: 1px solid #ff6600; }
+label.sapMGHLITitle {
+	color: #ff6600;
+	background-color: #eee;
+}
+
+/* Listen-Elemente */
+li.sapMLIBCursor { border-top: 1px solid #000; }
+li.sapMLIBCursor:last-child { border-bottom: 1px solid #000; }
+li.sapMLIBCursor:hover { background-color: #fff1d7 !important; }
+li.sapMLIBCursor:active { background-color: #ddd !important; }
+.sapMLIB.sapMLIBSelected, .sapMLIB.sapMLIBSelected>td { background-color: #ddd; }
+
+/* Buttons */
+div.sapMBtnInner { background-color: transparent !important; }
+div.sapMBtnInner:hover { background-color: #ff6600 !important; border: none; }

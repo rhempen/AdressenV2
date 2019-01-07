@@ -1,0 +1,15 @@
+/* Performance-Verbesserung beim Scrollen 
+	background-attachment: fixed causes a full repaint for all scroll events!!
+	--> http://www.youtube.com/watch?v=OJ1djzrK6jE */
+body {
+	background-attachment: scroll;
+}
+
+.spacerTop {
+	margin-top: 2rem;
+}
+
+.sapMText {
+	font-size: 1rem;
+}
+

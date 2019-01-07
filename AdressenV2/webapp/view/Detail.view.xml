@@ -1,0 +1,27 @@
+<mvc:View controllerName="OpenUI5.AdressenV2.controller.Detail" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns="sap.m">
+	<Page id="detailPage" title="{i18n>detailTitle}" showNavButton="true" navButtonPress="onNavPress">
+		<subHeader>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://slim-arrow-up" press="onPageUp" enabled="{viewModel>/buttonPrev}" visible="{device>/system/phone}"/>
+				<Button icon="sap-icon://slim-arrow-down" press="onPageDown" enabled="{viewModel>/buttonNext}" visible="{device>/system/phone}"/>
+			</Toolbar>
+		</subHeader>
+		<content>
+			<ObjectHeader id="objectHeader" number="{i18n>ID}: {addrid}" title="{name}">
+				<attributes>
+					<ObjectAttribute text="{plz_ort}, {ort}"/>
+					<ObjectAttribute text="{ path: 'telefonp1' }"/>
+					<ObjectAttribute text="{ path: 'telefong1' }"/>
+				</attributes>
+			</ObjectHeader>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button type="Accept" text="{i18n>btnEdit}" press="onEdit"/>
+				<Button type="Reject" text="{i18n>btnDelete}" press="onDelete"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

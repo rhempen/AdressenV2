@@ -1,0 +1,40 @@
+<mvc:View controllerName="OpenUI5.AdressenV2.controller.Master" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+	<Page id="masterPage" title="{i18n>masterViewTitle}" navButtonPress="onNavBack" showNavButton="true">
+		<content>
+			<Table id="table" class="sapUiResponsiveMargin" width="auto" items="{ path: '/adressen', sorter: { path: 'name' } }"
+				noDataText="{i18n>tableNoDataText}" growing="true" growingScrollToLoad="true">
+				<headerToolbar>
+					<Toolbar>
+						<Label id="tableHeader" text="{i18n>noOfAddress} {/msg}"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="NameSurnameColumn">
+						<header>
+							<Text text="{i18n>tableNameSurnameColumnTitle}" id="nameSurnameColumnTitle"/>
+						</header>
+					</Column>
+					<Column id="PictureColumn">
+						<header>
+							<Text text="{i18n>tablePictureColumnTitle}" id="namePictureColumnTitle"/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation" press="onListPress">
+						<cells>
+							<ObjectIdentifier title="{name}" text="{plz_ort}"/>
+							<ImageContent class="sapUiTinyMarginTopBottom" src="{bild}" description="Logo"></ImageContent>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button type="Accept" text="{i18n>btnAddAddress}" press="onAddAddress"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

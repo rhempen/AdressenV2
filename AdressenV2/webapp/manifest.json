@@ -1,0 +1,104 @@
+{
+	"_version": "1.1.0",
+	"sap.app": {
+		"_version": "1.1.0",
+		"id": "OpenUI5.AdressenV2",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescriptor}}",
+		"applicationVersion": {
+			"version": "${project.version}"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "webapp/model/adressen.json",
+				"type": "JSON"
+			}
+		}
+	},
+	"sap.ui": {
+		"_version": "1.1.0",
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+	},
+	"sap.ui5": {
+		"_version": "1.1.0",
+		"rootView": {
+			"viewName": "OpenUI5.AdressenV2.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.38.1",
+			"libs": {
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "OpenUI5.AdressenV2.i18n.i18n"
+				}
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "OpenUI5.AdressenV2.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"async": true,
+				"bypassed": {
+					"target": ["master"]
+				}
+			},
+			"routes": [{
+				"pattern": "",
+				"name": "master",
+				"target": ["master", "detail"]
+			}, {
+				"pattern": "detail/{addrid}",
+				"name": "detail",
+				"target": ["detail"]
+			}, {
+				"pattern": "edit/:addrid:",
+				"name": "edit",
+				"target": ["edit"]
+			}, {
+				"pattern": "notfound",
+				"name": "notFound",
+				"target": ["detail"]
+			}],
+			"targets": {
+				"master": {
+					"viewName": "Master",
+					"viewLevel": 1
+				},
+				"detail": {
+					"viewName": "Detail",
+					"viewLevel": 2
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				},
+				"edit": {
+					"viewName": "Edit",
+					"viewId": "edit",
+					"viewLevel": 3
+				}
+			}
+		}
+	}
+}

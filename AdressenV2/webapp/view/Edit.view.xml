@@ -1,0 +1,32 @@
+<mvc:View controllerName="OpenUI5.AdressenV2.controller.Edit" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form" xmlns="sap.m">
+	<Page id="editPage" navButtonPress="onNavPress" showNavButton="true" title="{i18n>detailTitle}">
+		<content>
+			<ObjectHeader id="objectHeader" number="{i18n>ID}: {addrid}"></ObjectHeader>
+			<form:SimpleForm id="form" layout="ResponsiveGridLayout" editable="true" class="sapUiResponsiveMargin" width="auto" labelSpanL="3"
+				labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+				<form:content>
+					<Label id="nameLabel" text="{i18n>Name}"/>
+					<Input id="nameInput" value="{ path : 'name', type : 'sap.ui.model.type.String' }"/>
+					<Label id="streetLabel" text="{i18n>Street}"/>
+					<Input id="streetInput" value="{ path : 'adresse', type : 'sap.ui.model.type.String' }"/>
+					<Label id="cityLabel1" text="{i18n>City}"/>
+					<Input id="cityInput1" value="{ path : 'plz_ort', type : 'sap.ui.model.type.String' }"/>
+					<Label id="cityLabel2" text="{i18n>City}"/>
+					<Input id="cityInput2" value="{ path: 'ort', type: 'sap.ui.model.type.String' }"/>
+					<Label id="phoneLabel1" text="{i18n>PhoneNumberP}"/>
+					<Input id="phoneInput1" value="{ path: 'telefonp1', type: '.types.PhoneNumber' }"/>
+					<Label id="phoneLabel2" text="{i18n>PhoneNumberG}"/>
+					<Input id="phoneInput2" value="{ path: 'telefong1 ', type: '.types.PhoneNumber' }"/>
+				</form:content>
+			</form:SimpleForm>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button type="Accept" text="{i18n>btnSave}" press="onSave"/>
+				<Button type="Reject" text="{i18n>btnCancel}" press="onCancel"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>
