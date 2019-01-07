@@ -64,12 +64,12 @@ sap.ui.define([
 			if (sRoute === "master") {
 				var bReplace = false;
 				this.getRouter().navTo(sRoute, mData, bReplace);
-			}
-			else if (sPreviousHash !== undefined && sPreviousHash !== "mock") {
-				// The history contains a previous entry
-				/*eslint-disable */
-				window.history.go(-1);
-				/*eslint-enable */
+			// }
+			// else if (sPreviousHash !== undefined && sPreviousHash !== "mock") {
+			// 	// The history contains a previous entry
+			// 	/*eslint-disable */
+			// 	window.history.go(-1);
+			// 	/*eslint-enable */
 			} else {
 				// Otherwise we go backwards with a forward history
 				var bReplace = true;

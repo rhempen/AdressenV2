@@ -66,15 +66,15 @@
 			"routes": [{
 				"pattern": "",
 				"name": "master",
-				"target": ["master", "detail"]
+				"target": ["detail", "master"]
 			}, {
 				"pattern": "detail/{addrid}",
 				"name": "detail",
-				"target": ["detail"]
+				"target": ["master", "detail"]
 			}, {
 				"pattern": "edit/:addrid:",
 				"name": "edit",
-				"target": ["edit"]
+				"target": ["detail", "edit"]
 			}, {
 				"pattern": "notfound",
 				"name": "notFound",
@@ -89,14 +89,13 @@
 					"viewName": "Detail",
 					"viewLevel": 2
 				},
+				"edit": {
+					"viewName": "Edit",
+					"viewLevel": 2
+				},
 				"notFound": {
 					"viewName": "NotFound",
 					"viewId": "notFound"
-				},
-				"edit": {
-					"viewName": "Edit",
-					"viewId": "edit",
-					"viewLevel": 3
 				}
 			}
 		}

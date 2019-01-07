@@ -7,17 +7,17 @@
 				labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 				<form:content>
 					<Label id="nameLabel" text="{i18n>Name}"/>
-					<Input id="nameInput" value="{ path : 'name', type : 'sap.ui.model.type.String' }"/>
+					<Input id="nameInput" value="{= ${mode} === 'create' ? '' : ${path:'name', type:'sap.ui.model.type.String'}}"/>
 					<Label id="streetLabel" text="{i18n>Street}"/>
-					<Input id="streetInput" value="{ path : 'adresse', type : 'sap.ui.model.type.String' }"/>
+					<Input id="streetInput" value="{= ${mode} === 'create' ? '' : ${path:'adresse', type:'sap.ui.model.type.String'}}"/>
 					<Label id="cityLabel1" text="{i18n>City}"/>
-					<Input id="cityInput1" value="{ path : 'plz_ort', type : 'sap.ui.model.type.String' }"/>
+					<Input id="cityInput1" value="{= ${mode} === 'create' ? '' : ${path:'plz_ort', type:'sap.ui.model.type.String'}}"/>
 					<Label id="cityLabel2" text="{i18n>City}"/>
-					<Input id="cityInput2" value="{ path: 'ort', type: 'sap.ui.model.type.String' }"/>
+					<Input id="cityInput2" value="{= ${mode} === 'create' ? '' : ${path:'ort', type:'sap.ui.model.type.String'}}"/>
 					<Label id="phoneLabel1" text="{i18n>PhoneNumberP}"/>
-					<Input id="phoneInput1" value="{ path: 'telefonp1', type: '.types.PhoneNumber' }"/>
+					<Input id="phoneInput1" value="{= ${mode} === 'create' ? '' : ${path:'telefonp1', type:'.types.PhoneNumber'}}"/>
 					<Label id="phoneLabel2" text="{i18n>PhoneNumberG}"/>
-					<Input id="phoneInput2" value="{ path: 'telefong1 ', type: '.types.PhoneNumber' }"/>
+					<Input id="phoneInput2" value="{= ${mode} === 'create' ? '' : ${path:'telefong1', type:'.types.PhoneNumber'}}"/>
 				</form:content>
 			</form:SimpleForm>
 		</content>
