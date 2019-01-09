@@ -11,26 +11,18 @@ sap.ui.define([
 		},
 
 		init: function () {
-			var that = this;
-
 			var o18nModel = this.getModel("i18n");
 			sap.ui.getCore().setModel(o18nModel, "i18n");
-
-			var oModel = new sap.ui.model.json.JSONModel();
-			this.setModel(oModel);
-
-			// load adressen from json-file
-			if (window.location.hash === "#mock") {
-				$.ajax({
-					url: "webapp/model/adressen.json",
-					dataType: "json",
-					success: function (data) {
-						that.getModel().setProperty("/adressen", data.adressen);
-					}
-				});
-			} else {
-				that.getModel().setProperty("/adressen", []);
-			}
+			
+			var oModel = new sap.ui.model.json.JSONModel({});
+			oModel.setDefaultBindingMode("TwoWay");
+			sap.ui.getCore().setModel(oModel);
+			
+			var oViewModel = new sap.ui.model.json.JSONModel({
+				"createMode": false,
+				"mockData": window.location.hash === '#mock' ? true : false
+			});
+			sap.ui.getCore().setModel(oViewModel, "viewModel");
 
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
@@ -41,6 +33,5 @@ sap.ui.define([
 			// set the device model
 			this.setModel(models.createDeviceModel(), "Device");
 		}
-
 	});
 });

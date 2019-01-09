@@ -49,6 +49,14 @@
 				"settings": {
 					"bundleName": "OpenUI5.AdressenV2.i18n.i18n"
 				}
+			},
+			"": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {
+					"metadataUrlParams": {},
+					"defaultBindingMode": "TwoWay",
+					"defaultCountMode": "Inline"
+				}
 			}
 		},
 		"routing": {

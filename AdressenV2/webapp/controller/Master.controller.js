@@ -81,41 +81,5 @@ sap.ui.define([
 				addrid: oBindingContext.getPath().substr(10) //getProperty("addrid")
 			});
 		},
-
-		// loadData: function () {
-		// var that = this;
-		// var oModel = this.getModel();
-		// // Run with Mockdata or Not?
-		// window.location.hash = "#mock";
-		// if (window.location.hash !== "#mock") {
-		// 	jQuery.ajax({
-		// 		type: "GET",
-		// 		contentType: "application/json",
-		// 		url: "webapp/php/getData.php/all/",
-		// 		dataType: "json",
-		// 		success: function (oData) {
-		// 			oModel.setData(oData);
-		// 			sap.ui.getCore().setModel(oModel);
-		// 		},
-		// 		error: function (oData) {
-		// 			console.log("an error occurred retrievieng the Data");
-		// 		}
-		// 	});
-		// } else {
-		// 	$.ajax({
-		// 		url: "webapp/model/adressen.json",
-		// 		dataType: "json",
-		// 		success: function (data) {
-		// 			oModel.setProperty("/adressen", data.adressen);
-		// 			oModel.setProperty("/msg", data.msg);
-		// 			sap.ui.getCore().setModel(oModel);
-		// 		},
-		// 		error: function (data, textStatus, jqXHR) {
-		// 			console.log("an error occurred retrievieng the Data " + textStatus);
-		// 		}
-		// 	});
-		// }
-		// }
-
 	});
 });

@@ -60,19 +60,19 @@ sap.ui.define([
 		myNavBack: function (sRoute, mData) {
 			var oHistory = History.getInstance();
 			var sPreviousHash = oHistory.getPreviousHash();
+			var bReplace = false;
 
 			if (sRoute === "master") {
-				var bReplace = false;
 				this.getRouter().navTo(sRoute, mData, bReplace);
-			// }
-			// else if (sPreviousHash !== undefined && sPreviousHash !== "mock") {
-			// 	// The history contains a previous entry
-			// 	/*eslint-disable */
-			// 	window.history.go(-1);
-			// 	/*eslint-enable */
+				// }
+				// else if (sPreviousHash !== undefined && sPreviousHash !== "mock") {
+				// 	// The history contains a previous entry
+				// 	/*eslint-disable */
+				// 	window.history.go(-1);
+				// 	/*eslint-enable */
 			} else {
 				// Otherwise we go backwards with a forward history
-				var bReplace = true;
+				bReplace = true;
 				this.getRouter().navTo(sRoute, mData, bReplace);
 			}
 		},
@@ -83,22 +83,21 @@ sap.ui.define([
 		},
 
 		loadInitialData: function (callback) {
-			var that = this;
-			var oModel = new sap.ui.model.json.JSONModel();
+			var oModel = sap.ui.getCore().getModel();
 			// Run with Mockdata or Not?
-			window.location.hash = "#mock";
+			// window.location.hash = "#mock";
 			if (window.location.hash !== "#mock") {
 				jQuery.ajax({
 					type: "GET",
 					contentType: "application/json",
 					url: "webapp/php/getData.php/all/",
 					dataType: "json",
-					success: function (oData) {
-						oModel.setData(oData);
+					success: function (data) {
+						oModel.setData(data);
 						sap.ui.getCore().setModel(oModel);
 					},
-					error: function (oData) {
-						console.log("an error occurred retrievieng the Data");
+					error: function (data, textStatus, jqXHR) {
+						sap.m.MessageToast.show("an error occurred retrievieng the Data! " + textStatus);
 					}
 				});
 			} else {
@@ -112,7 +111,7 @@ sap.ui.define([
 						if (callback) callback.apply(this, arguments);
 					},
 					error: function (data, textStatus, jqXHR) {
-						console.log("an error occurred retrievieng the Data " + textStatus);
+						sap.m.MessageToast.show("an error occurred retrievieng the Data! " + textStatus);
 					}
 				});
 			}
