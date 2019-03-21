@@ -58,20 +58,29 @@ sap.ui.define([
 
 		onPageUp: function (oEvent) {
 			var sID = oEvent.getSource().getBindingContext().getPath();
-			sID = parseInt(sID.substr(sID.lastIndexOf("/") + 1));
-			sID = sID - 1;
-			this.getRouter().navTo("detail", {
-				addrid: sID
-			});
+			sID = parseInt(sID.substr(sID.lastIndexOf("/") + 1), 0);
+			if (sID > 0) {
+				sID = sID - 1;
+				this.getRouter().navTo("detail", {
+					addrid: sID
+				});
+			} else {
+				sap.m.MessageToast.show("Keine weitere Adresse!");
+			}
 		},
 
 		onPageDown: function (oEvent) {
 			var sID = oEvent.getSource().getBindingContext().getPath();
-			sID = parseInt(sID.substr(sID.lastIndexOf("/") + 1));
+			var iAnzAdressen = this.getView().getModel().getProperty("/adressen").length;
+			sID = parseInt(sID.substr(sID.lastIndexOf("/") + 1), 0);
 			sID = sID + 1;
-			this.getRouter().navTo("detail", {
-				addrid: sID
-			});
+			if (sID < iAnzAdressen) {
+				this.getRouter().navTo("detail", {
+					addrid: sID
+				});
+			} else {
+				sap.m.MessageToast.show("Keine weitere Adresse!");
+			}
 		},
 
 		/* =========================================================================== */

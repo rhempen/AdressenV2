@@ -11,18 +11,17 @@ sap.ui.define([
 		 */
 		onInit: function () {
 			var that = this;
+			var oModel;
 
 			this.loadInitialData(function (data) {
-				var oModel = sap.ui.getCore().getModel();
+				oModel = sap.ui.getCore().getModel();
 				that.getView().setModel(oModel);
-				var oAdressen = that.getView().getModel().getProperty("/adressen");
-				var oList = that.getView().byId("table");
 			});
 
 			this.getRouter().attachRoutePatternMatched(this.onRoutePatternMatched, this);
 
 			this.getView().attachEventOnce("afterRendering", function (oEvent) {
-				var oParams = oEvent.getParameters();
+				// var oParams = oEvent.getParameters();
 			});
 
 		},
@@ -32,7 +31,6 @@ sap.ui.define([
 			if (sName !== "master") {
 				return;
 			}
-
 		},
 
 		/**
