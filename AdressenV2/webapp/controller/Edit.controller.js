@@ -41,21 +41,37 @@ sap.ui.define([
 			if (oviewModel.getProperty("/mockData")) {
 				var aAddress = oModel.getProperty("/adressen");
 				var aFields = this.getView().byId("form").getContent();
-				aFields.forEach(function(f) {
+				aFields.forEach(function (f) {
 					if (f.getId().match(/Input/)) {
 						var sId = f.getId();
 						var sValue = f.getValue();
 						console.log(sId, sValue);
-					}	
+					}
 				});
 			} else {
 
-				var sLocalPath,
-					sUrl = "./webapp/php/getData.php/",
-					sPath = this.getView().getBindingContext().getProperty("addrid"),
-					oModel = this.getModel(),
-					oObject = this.getView().getBindingContext().getProperty(),
-					that = this;
+				// var sLocalPath,
+				// 	sUrl = "./webapp/php/getData.php/",
+				// 	sPath = this.getView().getBindingContext().getProperty("addrid"),
+				// 	oModel = this.getModel(),
+				// 	oObject = this.getView().getBindingContext().getProperty(),
+				// 	that = this;
+
+				var oFields = new Array, sId, sField, sUrl, sLocalPath, sPath;
+				var aFields = this.getView().byId("form").getContent();
+				
+				oFields["addrid"] = this.getView().getBindingContext().getPath().split("/").pop();
+				aFields.forEach(function(field,index) {
+					sId = field.getId().split("--")[1];
+					if (sId.match(/Input/)) {
+						sField = sId.replace(/Input/,"").trim();
+						oFields[sField] = field.getValue();
+						if (sField === 'name') {
+							oFields["firstletter"] = oFields["name"].substr(0,1);
+						}
+					}
+				});
+				
 
 				//check if we're in edit or createMode			    
 				if (!this.getModel("viewModel").getProperty("/createMode")) {
@@ -64,7 +80,7 @@ sap.ui.define([
 					sLocalPath = sPath;
 				}
 
-				oModel.saveEntry(oObject, sUrl, sLocalPath);
+				// oModel.saveEntry(oObject, sUrl, sLocalPath);
 
 				oModel.attachEventOnce("requestCompleted", function () {
 					that.getRouter().navTo("master");
