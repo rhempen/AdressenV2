@@ -4,7 +4,7 @@
    ],
    "adressen":[  
       {  
-         "addrid":"5",
+         "addrid":5,
          "name":"Aline",
          "firstletter":"A",
          "adresse":"Moosstrasse 62",
@@ -22,7 +22,7 @@
          "notizen":"Arbeitet seit 1. September 2014 im USZ"
       },
       {  
-         "addrid":"8",
+         "addrid":8,
          "name":"Gabriela Niedermann - Maag",
          "firstletter":"G",
          "adresse":"Huswiesenstrasse 25",
@@ -40,7 +40,7 @@
          "notizen":"Guter Test"
       },
       {  
-         "addrid":"3",
+         "addrid":3,
          "name":"Hans Meier",
          "firstletter":"H",
          "adresse":"Eisenbahnstrasse 54",
@@ -58,7 +58,7 @@
          "notizen":""
       },
       {  
-         "addrid":"11",
+         "addrid":11,
          "name":"Kathrin",
          "firstletter":"K",
          "adresse":"Schrennengasse 25",
@@ -76,7 +76,7 @@
          "notizen":""
       },
       {  
-         "addrid":"10",
+         "addrid":10,
          "name":"Kathrin Winzeler - \u00dcrtig",
          "firstletter":"K",
          "adresse":"Schrennengasse 25",
@@ -94,7 +94,7 @@
          "notizen":""
       },
       {  
-         "addrid":"1",
+         "addrid":1,
          "name":"Martin G\u00fcbeli",
          "firstletter":"M",
          "adresse":"Heinrichstrasse 201",
@@ -112,7 +112,7 @@
          "notizen":""
       },
       {  
-         "addrid":"4",
+         "addrid":4,
          "name":"Peter Schweikart",
          "firstletter":"P",
          "adresse":"Albisstrasse 46",
@@ -130,7 +130,7 @@
          "notizen":""
       },
       {  
-         "addrid":"14",
+         "addrid":14,
          "name":"Richi Degonda",
          "firstletter":"R",
          "adresse":"",
@@ -148,7 +148,7 @@
          "notizen":""
       },
       {  
-         "addrid":"2",
+         "addrid":2,
          "name":"Roland Hempen",
          "firstletter":"R",
          "adresse":"Gutstrasse 150",
@@ -166,7 +166,7 @@
          "notizen":""
       },
       {  
-         "addrid":"12",
+         "addrid":12,
          "name":"Roland Hempen",
          "firstletter":"R",
          "adresse":"Gutstrasse 150",
@@ -184,7 +184,7 @@
          "notizen":"Testerfassung "
       },
       {  
-         "addrid":"9",
+         "addrid":9,
          "name":"R\u00fcdiger Plantiko",
          "firstletter":"R",
          "adresse":"Bachwiesenstrasse 28",

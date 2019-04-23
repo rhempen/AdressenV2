@@ -37,60 +37,90 @@ sap.ui.define([
 
 		onSave: function (oEvent) {
 			var oModel = this.getModel();
-			var oviewModel = this.getModel("viewModel");
-			if (oviewModel.getProperty("/mockData")) {
-				var aAddress = oModel.getProperty("/adressen");
-				var aFields = this.getView().byId("form").getContent();
-				aFields.forEach(function (f) {
-					if (f.getId().match(/Input/)) {
-						var sId = f.getId();
-						var sValue = f.getValue();
-						console.log(sId, sValue);
+			var oAdressen = oModel.getProperty("/adressen");
+			var sCreate = this.getModel("viewModel").getProperty("/createMode");
+			var sPath = this.getView().getBindingContext().getPath();
+			var oRow = {},
+				sId, sField, lFieldname;
+			var aFields = this.getView().byId("form").getContent();
+
+			oRow.addrid = this.getView().getBindingContext().getPath().split("/").pop();
+			oRow.addrid = this.sNextAddrid;
+			oRow.bild = "";
+			oRow.emailg1 = "";
+			oRow.emailp1 = "";
+			oRow.geburtstag = "";
+			oRow.geschlecht = "";
+			oRow.notizen = "";
+			oRow.ort = "";
+			oRow.websiteg1 = "";
+			oRow.websitep1 = "";
+			// aFields.forEach(function (field, index) {
+			// 	sId = field.getId().split("--")[1];
+			// 	if (sId.match(/Input/)) {
+			// 		sField = sId.replace(/Input/, "").trim();
+			// 		oRow[sField] = field.getValue();
+			// 		if (sField === 'name') {
+			// 			oRow.firstletter = oRow.name.substr(0, 1);
+			// 		}
+			// 	}
+			// });
+
+			aFields.forEach(function (field, index) {
+				sId = field.getId().split("--")[1];
+				// oRow = oModel.getProperty(sPath);
+				if (sId.match(/Input/)) {
+					sField = sId.replace(/Input/, "").trim();
+					// oRow[sField] = field.getValue();
+					if (sField === "name") {
+						oRow.firstletter = field.getValue().substr(0,1);
 					}
-				});
-			} else {
-
-				// var sLocalPath,
-				// 	sUrl = "./webapp/php/getData.php/",
-				// 	sPath = this.getView().getBindingContext().getProperty("addrid"),
-				// 	oModel = this.getModel(),
-				// 	oObject = this.getView().getBindingContext().getProperty(),
-				// 	that = this;
-
-				var oFields = new Array, sId, sField, sUrl, sLocalPath, sPath;
-				var aFields = this.getView().byId("form").getContent();
-				
-				oFields["addrid"] = this.getView().getBindingContext().getPath().split("/").pop();
-				aFields.forEach(function(field,index) {
-					sId = field.getId().split("--")[1];
-					if (sId.match(/Input/)) {
-						sField = sId.replace(/Input/,"").trim();
-						oFields[sField] = field.getValue();
-						if (sField === 'name') {
-							oFields["firstletter"] = oFields["name"].substr(0,1);
-						}
+					if (sField === "plz_ort") {
+						oRow.ort = field.getValue().split(" ")[1] ? field.getValue().split(" ")[1] : "";
 					}
-				});
-				
 
-				//check if we're in edit or createMode			    
-				if (!this.getModel("viewModel").getProperty("/createMode")) {
-					//we're not, so we update an existing entry
-					sUrl = sUrl + sPath + "/";
-					sLocalPath = sPath;
+					if (sCreate) {
+						lFieldname = sField;
+						oRow[lFieldname] = field.getValue();
+					} else {
+						oModel.setProperty(sPath + "/" + sField, field.getValue());
+					}
 				}
-
-				// oModel.saveEntry(oObject, sUrl, sLocalPath);
-
-				oModel.attachEventOnce("requestCompleted", function () {
-					that.getRouter().navTo("master");
-				}, this);
-
-				oModel.attachEventOnce("requestFailed", function () {
-					MessageToast.show(that.getResourceBundle().getText("updateFailed"));
-				}, this);
-
+			});
+			
+			if (sCreate) {
+				oAdressen.push(oRow);
+				oModel.setProperty("/adressen", oAdressen);
 			}
+
+			var opt = {
+				bAppend: sCreate ? true : false,
+				bUpdate: sCreate ? false : true
+			};
+			this.fillAddressDB(opt);
+
+			this.getRouter().navTo("master");
+
+			// MessageToast.show(that.getResourceBundle().getText("updateFailed"));
+
+			//check if we're in edit or createMode			    
+			// if (!this.getModel("viewModel").getProperty("/createMode")) {
+			// 	//we're not, so we update an existing entry
+			// 	sUrl = sUrl + sPath + "/";
+			// 	sLocalPath = sPath;
+			// }
+
+			// oModel.saveEntry(oObject, sUrl, sLocalPath);
+
+			// oModel.attachRequestCompleted(function(oEvent1) {
+			// 	that.getRouter().navTo("master");
+			// }, this);
+
+			// oModel.attachEventOnce("requestFailed", function () {
+			// 	MessageToast.show(that.getResourceBundle().getText("updateFailed"));
+			// }, this);
+
+			// }
 
 		},
 
@@ -145,14 +175,23 @@ sap.ui.define([
 			// this._sortByAddrid(oAdressen);
 			var oEntry = {
 				addrid: this._getHighestAddrid(),
-				name: "",
 				adresse: "",
-				plz_ort: "",
+				bild: "",
+				emailg1: "",
+				emailp1: "",
+				firstletter: "",
+				geburtstag: "",
+				geschlecht: "",
+				name: "",
+				notizen: "",
 				ort: "",
+				plz_ort: "",
 				telefonp1: "",
-				telefong1: ""
+				telefong1: "",
+				websiteg1: "",
+				websitep1: ""
 			};
-			oAdressen.push(oEntry);
+			// oAdressen.push(oEntry);
 		},
 
 		/**

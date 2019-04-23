@@ -22,26 +22,36 @@ sap.ui.define([
 			var sObjectPath = this.getView().getElementBinding().getPath(); //.substr(11);
 			// we need to strip the leading slashes from the path to get the ID
 			this.getRouter().navTo("edit", {
-				addrid: sObjectPath.replace(/\D/g, '')
+				addrid: sObjectPath.replace(/\D/g, "")
 			}, true);
 		},
 
 		onDelete: function () {
 			var oModel = this.getModel(),
-				sLocalPath = this.getView().getElementBinding().getPath(),
-				oObject = oModel.getProperty(sLocalPath),
-				sUrl = "./webapp/php/getData.php/" + oObject.addrid + "/",
-				that = this;
+				sPath = this.getView().getElementBinding().getPath(),
+				oAdressen = oModel.getProperty("/adressen"),
+				// oObject = oModel.getProperty(sPath),
+				sIndex = parseInt(sPath.substring(sPath.lastIndexOf("/") + 1));
+			oAdressen.splice(sIndex, 1);
+			oModel.refresh(true);
 
-			oModel.deleteEntry(sUrl, oObject.addrid);
+			var opt = { bUpdate: true };
+			this.fillAddressDB(opt);
 
-			oModel.attachEventOnce("requestCompleted", function () {
-				that.getRouter().navTo("master");
-			}, this);
+			this.getRouter().navTo("master");
 
-			oModel.attachEventOnce("requestFailed", function () {
-				MessageToast.show(that.getResourceBundle().getText("updateFailed"));
-			});
+			// sUrl = "./webapp/php/getData.php/" + oObject.addrid + "/",
+			// that = this;
+
+			// oModel.deleteEntry(sUrl, oObject.addrid);
+
+			// oModel.attachEventOnce("requestCompleted", function () {
+			// 	that.getRouter().navTo("master");
+			// }, this);
+
+			// oModel.attachEventOnce("requestFailed", function () {
+			// 	MessageToast.show(that.getResourceBundle().getText("updateFailed"));
+			// });
 		},
 
 		/* =========================================================================== */

@@ -10,14 +10,12 @@
 					<Input id="nameInput" value="{= ${viewModel>/createMode} ? '' : ${path:'name', type:'sap.ui.model.type.String'}}"/>
 					<Label id="adresseLabel" text="{i18n>Adresse}"/>
 					<Input id="adresseInput" valueLiveUpdate="true" value="{= ${viewModel>/createMode} ? '' : ${path:'adresse', type:'sap.ui.model.type.String'}}"/>
-					<Label id="plz_ortLabel1" text="{i18n>Plz_Ort}"/>
-					<Input id="plz_ortInput1" value="{= ${viewModel>/createMode} ? '' : ${path:'plz_ort', type:'sap.ui.model.type.String'}}"/>
-					<!--<Label id="cityLabel2" text="{i18n>City}"/>-->
-					<!--<Input id="cityInput2" value="{= ${viewModel>/createMode} ? '' : ${path:'ort', type:'sap.ui.model.type.String'}}"/>-->
-					<Label id="phoneLabel1" text="{i18n>PhoneNumberP}"/>
-					<Input id="phoneInput1" value="{= ${viewModel>/createMode} ? '' : ${path:'telefonp1', type:'.types.PhoneNumber'}}"/>
-					<Label id="phoneLabel2" text="{i18n>PhoneNumberG}"/>
-					<Input id="phoneInput2" value="{= ${viewModel>/createMode} ? '' : ${path:'telefong1', type:'.types.PhoneNumber'}}"/>
+					<Label id="plz_ortLabel" text="{i18n>Plz_Ort}"/>
+					<Input id="plz_ortInput" value="{= ${viewModel>/createMode} ? '' : ${path:'plz_ort', type:'sap.ui.model.type.String'}}"/>
+					<Label id="telefonp1Label" text="{i18n>PhoneNumberP}"/>
+					<Input id="telefonp1Input" value="{= ${viewModel>/createMode} ? '' : ${path:'telefonp1', type:'.types.PhoneNumber'}}"/>
+					<Label id="telefong1Label" text="{i18n>PhoneNumberG}"/>
+					<Input id="telefong1Input" value="{= ${viewModel>/createMode} ? '' : ${path:'telefong1', type:'.types.PhoneNumber'}}"/>
 				</form:content>
 			</form:SimpleForm>
 		</content>

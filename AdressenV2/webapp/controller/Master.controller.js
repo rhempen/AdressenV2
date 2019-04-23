@@ -31,6 +31,12 @@ sap.ui.define([
 			if (sName !== "master") {
 				return;
 			}
+
+			var oModel = sap.ui.getCore().getModel();
+			var oAdressen = oModel.getProperty("/adressen");
+			if (oAdressen) {
+				oModel.setProperty("/msg", oAdressen.length);
+			}
 		},
 
 		/**
