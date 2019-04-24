@@ -31,10 +31,19 @@
 			</Table>
 		</content>
 		<footer>
-			<Toolbar>
-				<ToolbarSpacer/>
-				<Button type="Accept" text="{i18n>btnAddAddress}" press="onAddAddress"/>
-			</Toolbar>
+			<Bar>
+				<contentLeft>
+					<Toolbar>
+						<Button id="btn_favorite" type="Default" icon="sap-icon://synchronize" tooltip="{i18n>btnSynchronize}" press="onSynchronize"/>
+					</Toolbar>
+				</contentLeft>
+				<contentRight>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button type="Accept" text="{i18n>btnAddAddress}" press="onAddAddress"/>
+					</Toolbar>
+				</contentRight>
+			</Bar>
 		</footer>
 	</Page>
 </mvc:View>

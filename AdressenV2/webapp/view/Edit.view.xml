@@ -1,15 +1,19 @@
 <mvc:View controllerName="OpenUI5.AdressenV2.controller.Edit" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout"
-	xmlns:form="sap.ui.layout.form" xmlns="sap.m">
+	xmlns:form="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns="sap.m">
 	<Page id="editPage" navButtonPress="onNavPress" showNavButton="true" title="{i18n>detailTitle}">
 		<content>
 			<ObjectHeader id="objectHeader" number="{i18n>ID}: {addrid}"></ObjectHeader>
 			<form:SimpleForm id="form" layout="ResponsiveGridLayout" editable="true" class="sapUiResponsiveMargin" width="auto" labelSpanL="3"
 				labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 				<form:content>
+					<Image id="img" src="{bild}" height="150px"/>
+					<u:FileUploader id="bildUpload" placeholder="Select Image" uploadOnChange="true" uploadComplete="onBildChange" fileType="jpg,png"></u:FileUploader>
+					<Label id="bildLabel" text="{i18n>tablePictureColumnTitle}"/>
 					<Label id="nameLabel" text="{i18n>Name}"/>
 					<Input id="nameInput" value="{= ${viewModel>/createMode} ? '' : ${path:'name', type:'sap.ui.model.type.String'}}"/>
 					<Label id="adresseLabel" text="{i18n>Adresse}"/>
-					<Input id="adresseInput" valueLiveUpdate="true" value="{= ${viewModel>/createMode} ? '' : ${path:'adresse', type:'sap.ui.model.type.String'}}"/>
+					<Input id="adresseInput" valueLiveUpdate="true"
+						value="{= ${viewModel>/createMode} ? '' : ${path:'adresse', type:'sap.ui.model.type.String'}}"/>
 					<Label id="plz_ortLabel" text="{i18n>Plz_Ort}"/>
 					<Input id="plz_ortInput" value="{= ${viewModel>/createMode} ? '' : ${path:'plz_ort', type:'sap.ui.model.type.String'}}"/>
 					<Label id="telefonp1Label" text="{i18n>PhoneNumberP}"/>

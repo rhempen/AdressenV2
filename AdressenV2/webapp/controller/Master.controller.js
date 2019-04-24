@@ -51,7 +51,6 @@ sap.ui.define([
 			//				  product = productPath.split("/").slice(-1).pop();
 
 			this._showObject(oEvent.getSource());
-
 		},
 
 		/**
@@ -65,6 +64,45 @@ sap.ui.define([
 			window.history.go(-1);
 		},
 
+		/**
+		 * Sync the current Addresses into the address.json file.
+		 *
+		 * @public
+		 */
+		onSynchronize: function () {
+			// First read Addresses from IndexDB and fill Entity oAdressen
+			this.readAddressDB();
+			var oAdressen = this.getModel().getProperty("/adressen");
+			
+			// Store data in the Local Storage of the Browser
+			var oJQueryStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+			oJQueryStorage.put("adressen", oAdressen);
+			// Read data from the Local Storage 
+			var oAdressenFromLocalStorage = oJQueryStorage.get("adressen");
+			
+			// Store data in the Session Storage of the Browser
+			sessionStorage.setItem("adressen", JSON.stringify(oAdressen));
+			// Read data from the Session Storage 
+			var oAdressenFromSessionStorage = JSON.parse(sessionStorage.getItem("adressen"));
+			
+			// Store data in a WebSQL-Database
+			// Siehe http://html5doctor.com/introducing-web-sql-databases/
+			var myWebDB = openDatabase("adressen", "1.0", "meine Adressen", 2 * 1024 * 1024);
+			myWebDB.transaction(function (tx) {
+				tx.executeSql("DROP TABLE IF EXISTS adressen");
+				tx.executeSql("CREATE TABLE IF NOT EXISTS adressen (addrid unique, name, adresse, plz_ort)");
+				oAdressen.forEach(function(item) {
+					tx.executeSql("INSERT INTO adressen (addrid, name, adresse, plz_ort) VALUES (?,?,?,?)", [item.addrid, item.name, item.adresse, item.plz_ort]);
+				});
+			});
+			
+		},
+
+		/**
+		 * Add a new Address
+		 *
+		 * @public
+		 */
 		onAddAddress: function () {
 			this.getRouter().navTo("edit");
 		},
@@ -84,6 +122,6 @@ sap.ui.define([
 			this.getRouter().navTo("detail", {
 				addrid: oBindingContext.getPath().substr(10) //getProperty("addrid")
 			});
-		},
+		}
 	});
 });

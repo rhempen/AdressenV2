@@ -8,6 +8,7 @@
 			</Toolbar>
 		</subHeader>
 		<content>
+			<Image src="{bild}" height="150px"></Image>
 			<ObjectHeader id="objectHeader" number="{i18n>ID}: {addrid}" title="{name}">
 				<attributes>
 					<ObjectAttribute text="{plz_ort}, {ort}"/>

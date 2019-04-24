@@ -35,6 +35,17 @@ sap.ui.define([
 			// this.myNavBack("master");
 		},
 
+		onBildChange: function(oEvent) {
+			var oSource = oEvent.getSource();
+			var f = oSource.oFileUpload.files[0];
+			var path = URL.createObjectURL(f);
+			path = path.replace(/blob:/,"");
+			var img = this.getView().byId("img");
+			img.setSrc = path;
+			var up = this.getView().byId("bildUpload");
+			up.setUploadUrl(path);
+		},
+
 		onSave: function (oEvent) {
 			var oModel = this.getModel();
 			var oAdressen = oModel.getProperty("/adressen");
@@ -44,8 +55,12 @@ sap.ui.define([
 				sId, sField, lFieldname;
 			var aFields = this.getView().byId("form").getContent();
 
-			oRow.addrid = this.getView().getBindingContext().getPath().split("/").pop();
+			// oRow.addrid = this.getView().getBindingContext().getPath().split("/").pop();
 			oRow.addrid = this.sNextAddrid;
+			oRow.name = "";
+			oRow.firstletter = "";
+			oRow.adresse = "";
+			oRow.plz_ort = "";
 			oRow.bild = "";
 			oRow.emailg1 = "";
 			oRow.emailp1 = "";
@@ -55,23 +70,11 @@ sap.ui.define([
 			oRow.ort = "";
 			oRow.websiteg1 = "";
 			oRow.websitep1 = "";
-			// aFields.forEach(function (field, index) {
-			// 	sId = field.getId().split("--")[1];
-			// 	if (sId.match(/Input/)) {
-			// 		sField = sId.replace(/Input/, "").trim();
-			// 		oRow[sField] = field.getValue();
-			// 		if (sField === 'name') {
-			// 			oRow.firstletter = oRow.name.substr(0, 1);
-			// 		}
-			// 	}
-			// });
 
 			aFields.forEach(function (field, index) {
 				sId = field.getId().split("--")[1];
-				// oRow = oModel.getProperty(sPath);
 				if (sId.match(/Input/)) {
 					sField = sId.replace(/Input/, "").trim();
-					// oRow[sField] = field.getValue();
 					if (sField === "name") {
 						oRow.firstletter = field.getValue().substr(0,1);
 					}
@@ -83,6 +86,12 @@ sap.ui.define([
 						lFieldname = sField;
 						oRow[lFieldname] = field.getValue();
 					} else {
+						if (sField === "name") {
+							oModel.setProperty(sPath + "/firstletter", oRow.firstletter);
+						}
+						if (sField === "plz_ort") {
+							oModel.setProperty(sPath + "/ort", oRow.ort);
+						}
 						oModel.setProperty(sPath + "/" + sField, field.getValue());
 					}
 				}
@@ -94,34 +103,13 @@ sap.ui.define([
 			}
 
 			var opt = {
-				bAppend: sCreate ? true : false,
-				bUpdate: sCreate ? false : true
+				// bAppend: sCreate ? true : false,
+				// bUpdate: sCreate ? false : true
+				bUpdate: true
 			};
 			this.fillAddressDB(opt);
 
 			this.getRouter().navTo("master");
-
-			// MessageToast.show(that.getResourceBundle().getText("updateFailed"));
-
-			//check if we're in edit or createMode			    
-			// if (!this.getModel("viewModel").getProperty("/createMode")) {
-			// 	//we're not, so we update an existing entry
-			// 	sUrl = sUrl + sPath + "/";
-			// 	sLocalPath = sPath;
-			// }
-
-			// oModel.saveEntry(oObject, sUrl, sLocalPath);
-
-			// oModel.attachRequestCompleted(function(oEvent1) {
-			// 	that.getRouter().navTo("master");
-			// }, this);
-
-			// oModel.attachEventOnce("requestFailed", function () {
-			// 	MessageToast.show(that.getResourceBundle().getText("updateFailed"));
-			// }, this);
-
-			// }
-
 		},
 
 		onCancel: function () {
@@ -134,7 +122,6 @@ sap.ui.define([
 					addrid: sAddrid
 				});
 			}
-
 		},
 
 		/* =========================================================================== */
