@@ -35,15 +35,37 @@ sap.ui.define([
 			// this.myNavBack("master");
 		},
 
-		onBildChange: function(oEvent) {
-			var oSource = oEvent.getSource();
-			var f = oSource.oFileUpload.files[0];
-			var path = URL.createObjectURL(f);
-			path = path.replace(/blob:/,"");
-			var img = this.getView().byId("img");
-			img.setSrc = path;
-			var up = this.getView().byId("bildUpload");
-			up.setUploadUrl(path);
+		onBildChange: function (oEvent) {
+			// var sResponse = oEvent.getParameter("response");
+			// var sResp = sResponse.replace(/<h1>/, "").replace(/<\/h1>/, "");
+			// sap.m.MessageToast.show("Return Code: " + sResp);
+			// var oSource = oEvent.getSource();
+			// var f = oSource.oFileUpload.files[0];
+			// var path = URL.createObjectURL(f);
+			// path = path.replace(/blob:/, "");
+			// var img = this.getView().byId("img");
+			// img.setSrc = path;
+			// var up = this.getView().byId("bildUpload");
+			// up.setUploadUrl(path);
+		},
+		
+		onUploadChange: function(oEvent) {
+			var sFile = this.getView().byId("bildUpload").oFileUpload.files[0];
+			var btnUpload = this.getView().byId("btnUpload");
+			if (sFile) btnUpload.setVisible(true);
+		},
+		
+		onBtnUpload: function(oEvent) {
+			var that = this;
+			var sFile = this.getView().byId("bildUpload").oFileUpload.files[0];
+			var img = this.getView().byId("bildInput");
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				img.setSrc(reader.result);
+				that.getView().byId("bildUpload").setValue("");
+				that.getView().byId("btnUpload").setVisible(false);
+			};
+			reader.readAsDataURL(sFile);
 		},
 
 		onSave: function (oEvent) {
@@ -73,10 +95,10 @@ sap.ui.define([
 
 			aFields.forEach(function (field, index) {
 				sId = field.getId().split("--")[1];
-				if (sId.match(/Input/)) {
+				if (sId && sId.match(/Input/)) {
 					sField = sId.replace(/Input/, "").trim();
 					if (sField === "name") {
-						oRow.firstletter = field.getValue().substr(0,1);
+						oRow.firstletter = field.getValue().substr(0, 1);
 					}
 					if (sField === "plz_ort") {
 						oRow.ort = field.getValue().split(" ")[1] ? field.getValue().split(" ")[1] : "";
@@ -84,7 +106,11 @@ sap.ui.define([
 
 					if (sCreate) {
 						lFieldname = sField;
-						oRow[lFieldname] = field.getValue();
+						if (sField === "bild") {
+							oRow[lFieldname] = field.getProperty("src");
+						} else {
+							oRow[lFieldname] = field.getValue();
+						}
 					} else {
 						if (sField === "name") {
 							oModel.setProperty(sPath + "/firstletter", oRow.firstletter);
@@ -92,11 +118,15 @@ sap.ui.define([
 						if (sField === "plz_ort") {
 							oModel.setProperty(sPath + "/ort", oRow.ort);
 						}
-						oModel.setProperty(sPath + "/" + sField, field.getValue());
+						if (sField === "bild") {
+							oModel.setProperty(sPath + "/" + sField, field.getProperty("src"));
+						} else {
+							oModel.setProperty(sPath + "/" + sField, field.getValue());
+						}
 					}
 				}
 			});
-			
+
 			if (sCreate) {
 				oAdressen.push(oRow);
 				oModel.setProperty("/adressen", oAdressen);

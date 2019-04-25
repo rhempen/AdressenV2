@@ -6,8 +6,12 @@
 			<form:SimpleForm id="form" layout="ResponsiveGridLayout" editable="true" class="sapUiResponsiveMargin" width="auto" labelSpanL="3"
 				labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 				<form:content>
-					<Image id="img" src="{bild}" height="150px"/>
-					<u:FileUploader id="bildUpload" placeholder="Select Image" uploadOnChange="true" uploadComplete="onBildChange" fileType="jpg,png"></u:FileUploader>
+					<Image id="bildInput" src="{= ${bild} ? ${bild} : './img/nopicture.jpg'}" height="150px" width="auto" activeSrc="./img/noImage.png"/>
+					<HBox>
+						<u:FileUploader id="bildUpload" placeholder="Select Image" uploadOnChange="false" uploadComplete="onBildChange" change="onUploadChange" fileType="jpg,png"
+							icon="sap-icon://slim-arrow-down" iconOnly="true" sameFilenameAllowed="true"></u:FileUploader>
+						<Button id="btnUpload" type="Accept" icon="sap-icon://upload" press="onBtnUpload" visible="false"></Button>
+					</HBox>
 					<Label id="bildLabel" text="{i18n>tablePictureColumnTitle}"/>
 					<Label id="nameLabel" text="{i18n>Name}"/>
 					<Input id="nameInput" value="{= ${viewModel>/createMode} ? '' : ${path:'name', type:'sap.ui.model.type.String'}}"/>
