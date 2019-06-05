@@ -93,7 +93,7 @@ sap.ui.define([
 				var opt = {};
 				// opt.bGetAddressData = true;
 				this.createAddressDB(opt);
-				if (callback) callback.apply(this, arguments);
+				if (callback) { callback.apply(this, arguments); }
 				// this.getMockData(callback);
 				// Datenbeschaffung mittel PHP und SQL-DB
 				// jQuery.ajax({
@@ -115,7 +115,7 @@ sap.ui.define([
 		},
 
 		getMockData: function (callback) {
-			var me = this;
+			var that = this;
 			model = sap.ui.getCore().getModel();
 			$.ajax({
 				url: "webapp/model/adressen.json",
@@ -125,8 +125,8 @@ sap.ui.define([
 					model.setProperty("/msg", data.msg);
 					sap.ui.getCore().setModel(model);
 					var opt = { bFillAddressDB : true };
-					me.initAddressDB(opt);
-					if (callback) callback.apply(this, arguments);
+					that.initAddressDB(opt);
+					if (callback) { callback.apply(that.arguments); }
 				},
 				error: function (data, textStatus, jqXHR) {
 					sap.m.MessageToast.show("an error occurred retrievieng the Data! " + textStatus);
@@ -136,7 +136,8 @@ sap.ui.define([
 
 		// Funktionen für IndexedDB
 		createAddressDB: function (opt) {
-			if (!opt) opt = {};
+			var that = this;
+			if (!opt) { opt = {}; }
 			//Nur erzeugen, wenn DB noch nicht im Model vorhanden
 			model = sap.ui.getCore().getModel();
 			if (model && model.myDB) {
@@ -148,7 +149,7 @@ sap.ui.define([
 					this.readAddressDB();
 				}
 				//ausserdem immer CallBack-Funktion aufrufen
-				if (opt.fCallBack) {
+				if (opt.fCallBack)  {
 					opt.fCallBack();
 				}
 				return;
@@ -156,7 +157,6 @@ sap.ui.define([
 			if (window.indexedDB === null) {
 				this.onDBErrors("Error_indexedDB");
 			} else {
-				var me = this;
 				var createDBRequest = indexedDB.open("AdressenDB", 1);
 
 				createDBRequest.onupgradeneeded = function (event) {
@@ -179,16 +179,16 @@ sap.ui.define([
 					model = sap.ui.getCore().getModel();
 					model.myDB = event.target.result;
 					// sicherstellen, dass DB zu diesem Zeitpunkt initialisiert wird
-					me.readAddressDB();
+					that.readAddressDB();
 				};
 				createDBRequest.onerror = function (oError) {
-					me.onDBErrors('Error_DBCreation');
+					that.onDBErrors("Error_DBCreation");
 				};
 			}
 		},
 
 		initAddressDB: function (opt) {
-			if (!opt) opt = {};
+			if (!opt) { opt = {}; }
 			var that = this;
 			var myDB;
 			var request = indexedDB.open("AdressenDB", 1);
@@ -218,7 +218,7 @@ sap.ui.define([
 		},
 
 		readAddressDB: function () {
-			var me = this;
+			var that = this;
 			if (model && model.myDB) {
 				var transaction = model.myDB.transaction(["Adressen"], "readwrite");
 				transaction.oncomplete = function (oEvent) {
@@ -226,7 +226,7 @@ sap.ui.define([
 				};
 
 				transaction.onerror = function (oEvent) {
-					me.onDBErrors('Error_DBReading');
+					that.onDBErrors("Error_DBReading");
 				};
 
 				var objectStore = transaction.objectStore("Adressen");
@@ -235,8 +235,8 @@ sap.ui.define([
 					if (oAdressen.length > 0) {
 						sap.ui.getCore().getModel().setProperty("/adressen", oAdressen);
 					} else {
-						me.getMockData(function (data) {
-							me.fillAddressDB();
+						that.getMockData(function (data) {
+							that.fillAddressDB();
 						});
 					}
 				};
@@ -244,8 +244,8 @@ sap.ui.define([
 		},
 
 		fillAddressDB: function (opt) {
-			var me = this;
-			if (!opt) opt = {};
+			var that = this;
+			if (!opt) { opt = {}; }
 			if (!opt.bAppend) {
 				opt.bAppend = false;
 			}
@@ -254,7 +254,7 @@ sap.ui.define([
 			}
 			var myDB = sap.ui.getCore().getModel().myDB;
 
-			me.bFirstDBError = false;
+			that.bFirstDBError = false;
 
 			if (opt.bAppend === false) {
 				var oClearTransaction = myDB.transaction(["Adressen"], "readwrite");
@@ -262,7 +262,7 @@ sap.ui.define([
 
 				var clearDBRequest = oClearDataStore.clear();
 				clearDBRequest.onerror = function (oError) {
-					me.onDBErrors('Error_DBClearing');
+					that.onDBErrors("Error_DBClearing");
 				};
 			}
 

@@ -1,5 +1,6 @@
 sap.ui.define([
 	"OpenUI5/AdressenV2/controller/BaseController",
+	"OpenUI5/AdressenV2/util/FileSaver",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
 
@@ -48,19 +49,19 @@ sap.ui.define([
 			// var up = this.getView().byId("bildUpload");
 			// up.setUploadUrl(path);
 		},
-		
-		onUploadChange: function(oEvent) {
+
+		onUploadChange: function (oEvent) {
 			var sFile = this.getView().byId("bildUpload").oFileUpload.files[0];
 			var btnUpload = this.getView().byId("btnUpload");
 			if (sFile) btnUpload.setVisible(true);
 		},
-		
-		onBtnUpload: function(oEvent) {
+
+		onBtnUpload: function (oEvent) {
 			var that = this;
 			var sFile = this.getView().byId("bildUpload").oFileUpload.files[0];
 			var img = this.getView().byId("bildInput");
 			var reader = new FileReader();
-			reader.onload = function(e) {
+			reader.onload = function (e) {
 				img.setSrc(reader.result);
 				that.getView().byId("bildUpload").setValue("");
 				that.getView().byId("btnUpload").setVisible(false);
@@ -69,6 +70,7 @@ sap.ui.define([
 		},
 
 		onSave: function (oEvent) {
+			var that = this; 
 			var oModel = this.getModel();
 			var oAdressen = oModel.getProperty("/adressen");
 			var sCreate = this.getModel("viewModel").getProperty("/createMode");
@@ -119,7 +121,9 @@ sap.ui.define([
 							oModel.setProperty(sPath + "/ort", oRow.ort);
 						}
 						if (sField === "bild") {
-							oModel.setProperty(sPath + "/" + sField, field.getProperty("src"));
+							var Bilddaten = field.getProperty("src");
+							var Image = that._convBase64ToImage(Bilddaten);
+							oModel.setProperty(sPath + "/" + sField, Bilddaten);
 						} else {
 							oModel.setProperty(sPath + "/" + sField, field.getValue());
 						}
@@ -250,6 +254,61 @@ sap.ui.define([
 			} else {
 				oView.bindElement("/adressen" + this.sObjectPath);
 			}
+		},
+		
+		/**
+		 * @param base64Data incl. contentType 
+		 * @see https://ourcodeworld.com/articles/read/322/how-to-convert-a-base64-image-into-a-image-file-and-upload-it-with-an-asynchronous-form-using-jquery
+		 * @return the blob
+		 */
+		_convBase64ToImage: function (base64Data) {
+			var that = this;
+			var ImageURL = base64Data;
+			// Split the base64 string in data and contentType
+			var block = ImageURL.split(";");
+			// Get the content type of the image
+			var contentType = block[0].split(":")[1]; // In this case "image/jpg" or "image/png"
+			// get the real base64 content of the file
+			var realData = block[1].split(",")[1]; // In this case "R0lGODlhPQBEAPeoAJosM...."
+
+			// Convert it to a blob to upload
+			var blob = that._b64toBlob(realData, contentType);
+			return blob;
+		},
+
+		/**
+		 * Convert a base64 string in a Blob according to the data and contentType.
+		 * 
+		 * @param b64Data {String} Pure base64 string without contentType
+		 * @param contentType {String} the content type of the file i.e (image/jpeg - image/png - text/plain)
+		 * @param sliceSize {Int} SliceSize to process the byteCharacters
+		 * @see http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+		 * @return Blob
+		 */
+		_b64toBlob: function (b64Data, contentType, sliceSize) {
+			contentType = contentType || '';
+			sliceSize = sliceSize || 512;
+
+			var byteCharacters = atob(b64Data);
+			var byteArrays = [];
+
+			for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+				var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+				var byteNumbers = new Array(slice.length);
+				for (var i = 0; i < slice.length; i++) {
+					byteNumbers[i] = slice.charCodeAt(i);
+				}
+
+				var byteArray = new Uint8Array(byteNumbers);
+
+				byteArrays.push(byteArray);
+			}
+
+			var blob = new Blob(byteArrays, {
+				type: contentType
+			});
+			return blob;
 		}
 	});
 });

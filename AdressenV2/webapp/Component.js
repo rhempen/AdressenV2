@@ -20,7 +20,7 @@ sap.ui.define([
 			
 			var oViewModel = new sap.ui.model.json.JSONModel({
 				"createMode": false,
-				"mockData": window.location.hash === '#mock' ? true : false
+				"mockData": window.location.hash === "#mock" ? true : false
 			});
 			sap.ui.getCore().setModel(oViewModel, "viewModel");
 
